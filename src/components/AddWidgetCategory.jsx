@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
 
-function AddWidgetCategory({ setWidgets, widgets} ) {
+
+
+function AddWidgetCategory({ setWidgets} ) {
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -9,17 +11,18 @@ function AddWidgetCategory({ setWidgets, widgets} ) {
   const [widgetTitle, setWidgetTitle] = useState('');
   const [widgetDescription, setWidgetDescription] = useState('');
   const [selectedButton, setSelectedButton] = useState('CSPM Executive Dashboard');
-  console.log(widgetTitle)
+
   const buttons = [
     { id: 'CSPM Executive Dashboard', label: 'CSPM' },
     { id: 'CWPP Dashboard', label: 'CWPP' },
-    { id: 'button3', label: 'Image' },
-    { id: 'button4', label: 'Ticket' },
+    { id: 'Image', label: 'Image' },
+    { id: 'Ticket', label: 'Ticket' },
   ];
 
   const activeButtonClick = (id) => {
     setActiveButton(id);
     setSelectedButton(id);  // Set the selected button correctly
+  
   };
 
   const handleButtonClick = () => {
@@ -42,7 +45,6 @@ function AddWidgetCategory({ setWidgets, widgets} ) {
           {
             title: widgetTitle || 'New Widget',  // Default title if none provided
             description: widgetDescription,
-
           },
         ];
       } else {
@@ -53,6 +55,7 @@ function AddWidgetCategory({ setWidgets, widgets} ) {
             ...updatedWidgets[widgetIndex].sections,
             {
               title: widgetTitle,
+              description:widgetDescription,
               type: 'new',
               data: [],
             },
@@ -65,7 +68,7 @@ function AddWidgetCategory({ setWidgets, widgets} ) {
     setWidgetTitle('');
     setWidgetDescription('');
     setIsOpen(false);
-    setSelectedButton('');  // Reset selected button correctly
+    setSelectedButton('');
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { json } from 'react-router-dom';
 
 function AddWidgetButton({ setWidgets, widgets }) {
   console.log(widgets);
@@ -6,12 +7,10 @@ function AddWidgetButton({ setWidgets, widgets }) {
   const [isOpen, setIsOpen] = useState(false);
   const [widgetTitle, setWidgetTitle] = useState('');
   const [widgetDescription, setWidgetDescription] = useState('');
-  const [selectedButton, setSelectedButton] = useState(null);
   const [activeButton, setActiveButton] = useState(null);
   const [selectedOption, setSelectedOption] = useState('CSPM Executive Dashboard');
 
-
-
+  
 
   const handleButtonClick = (e) => {
     setIsOpen(!isOpen);
@@ -28,6 +27,7 @@ function AddWidgetButton({ setWidgets, widgets }) {
   };
 
   const addWidget = (e) => {
+
     e.preventDefault();
 
     setWidgets((prevWidgets) => {
@@ -37,6 +37,14 @@ function AddWidgetButton({ setWidgets, widgets }) {
 
       if (widgetIndex === -1) {
         // If the widget does not exist, add a new one
+        localStorage.setItem('widgets' , json.stringify([
+          ...prevWidgets,
+          {
+            title: widgetTitle || 'New Widget', // Use default title if none is provided
+            description: widgetDescription,
+            
+          },
+        ]))
         return [
           ...prevWidgets,
           {
@@ -60,7 +68,9 @@ function AddWidgetButton({ setWidgets, widgets }) {
             },
           ],
         };
+        localStorage.setItem('widgets', JSON.stringify(updatedWidgets))
         return updatedWidgets;
+
       }
     });
 
@@ -73,13 +83,15 @@ function AddWidgetButton({ setWidgets, widgets }) {
     <div className="relative inline-block text-left">
       <button
         onClick={handleButtonClick}
-        className="bg-white w-full h-full items-center shadow-2xl shadow-gray-500  text-gray-600 font-bold py-2 px-4 rounded"
+        className="bg-white w-full h-64 items-center shadow-2xl shadow-gray-500  text-gray-600 font-bold py-2 px-4 rounded-2xl  shrink "
       >
-        <div className='flex gap-3 justify-center border border-gray-500 mx-32 p-1 rounded-md hover:scale-110 duration-300'>
+        <div className=' mx-16'>
+        <div className='flex gap-1 justify-center border border-gray-500 p-1 rounded-md hover:scale-110 duration-300'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
           <h2>Add Widget</h2>
+        </div>
         </div>
       </button>
 
